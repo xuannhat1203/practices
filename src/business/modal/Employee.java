@@ -1,9 +1,13 @@
 package business.modal;
 
+import validate.validateEmployee;
+
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.sql.Date;
+import java.util.Scanner;
 
 public class Employee {
+    private static Scanner sc = new Scanner(System.in);
     private String employeeId;
     private String fullName;
     private String email;
@@ -11,7 +15,7 @@ public class Employee {
     private Gender gender;
     private int salaryLevel;
     private BigDecimal salary;
-    private LocalDate birthDate;
+    private Date birthDate;
     private String address;
     private Status status;
     private int departmentId;
@@ -30,7 +34,7 @@ public class Employee {
     }
 
     public Employee(String employeeId, String fullName, String email, String phoneNumber, Gender gender,
-                    int salaryLevel, BigDecimal salary, LocalDate birthDate, String address,
+                    int salaryLevel, BigDecimal salary, Date birthDate, String address,
                     Status status, int departmentId) {
         setEmployeeId(employeeId);
         setFullName(fullName);
@@ -122,11 +126,11 @@ public class Employee {
         this.salary = salary;
     }
 
-    public LocalDate getBirthDate() {
+    public Date getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(LocalDate birthDate) {
+    public void setBirthDate(Date birthDate) {
         if (birthDate == null) {
             throw new IllegalArgumentException("Birth date cannot be null");
         }
@@ -164,6 +168,61 @@ public class Employee {
             throw new IllegalArgumentException("Department ID must be greater than 0");
         }
         this.departmentId = departmentId;
+    }
+    public void inputData() {
+        while (true) {
+            try {
+                this.employeeId = validateEmployee.validateEmployeeId("Nhập mã nhân viên:");
+                this.fullName = validateEmployee.validateEmployeeName("Nhập họ tên đầy đủ:");
+                this.email = validateEmployee.validateEmployeeEmail("Nhập email:");
+                this.phoneNumber = validateEmployee.validateEmployeePhone("Nhập số điện thoại:");
+                this.gender = validateEmployee.validateGender("Nhập giới tính (MALE/FEMALE/OTHER):");
+                this.salaryLevel = validateEmployee.validateSalaryLevel("Nhập cấp bậc lương (số nguyên > 0):");
+                this.salary = validateEmployee.validateSalary("Nhập lương:");
+                this.birthDate = Date.valueOf(validateEmployee.validateBirthDate("Nhập ngày sinh (dd/MM/yyyy):"));
+                this.address = validateEmployee.validateAddress("Nhập địa chỉ:");
+                this.status = validateEmployee.validateStatus("Nhập trạng thái (ACTIVE/INACTIVE/ONLEAVE/POLICYLEAVE):");
+
+                System.out.print("Nhập mã phòng ban (số nguyên > 0): ");
+                while (true) {
+                    try {
+                        int deptId = Integer.parseInt(validateEmployee.sc.nextLine());
+                        if (deptId > 0) {
+                            this.departmentId = deptId;
+                            break;
+                        } else {
+                            System.out.println("Mã phòng ban phải lớn hơn 0.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Mã phòng ban phải là số nguyên.");
+                    }
+                }
+
+                break;
+
+            } catch (Exception e) {
+                System.out.println("Lỗi: " + e.getMessage());
+                System.out.println("Vui lòng nhập lại!\n");
+            }
+        }
+    }
+
+
+    @Override
+    public String toString() {
+        return "\n===== Employee Information =====\n" +
+                "Employee ID   : " + employeeId + "\n" +
+                "Full Name     : " + fullName + "\n" +
+                "Email         : " + email + "\n" +
+                "Phone Number  : " + phoneNumber + "\n" +
+                "Gender        : " + gender.name() + "\n" +
+                "Salary Level  : " + salaryLevel + "\n" +
+                "Salary        : " + salary + "\n" +
+                "Birth Date    : " + birthDate + "\n" +
+                "Address       : " + address + "\n" +
+                "Status        : " + status.name() + "\n" +
+                "Department ID : " + departmentId + "\n" +
+                "================================\n";
     }
 }
 

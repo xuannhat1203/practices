@@ -1,6 +1,8 @@
 import business.service.AdminAndHr.AdminAndHrService;
 import business.service.AdminAndHr.AdminAndHrServiceImp;
 import presentation.DepartmentMenu;
+import presentation.EmployeeMenu;
+import presentation.StatisticalMenu;
 
 import java.util.Scanner;
 public class Main {
@@ -61,7 +63,8 @@ public class Main {
             System.out.println("************ MENU ************");
             System.out.println("1. Quản lí phòng ban");
             System.out.println("2. Quản lí nhân viên");
-            System.out.println("3. Thoát chương trình");
+            System.out.println("3. Thống kê ");
+            System.out.println("4. Thoát chương trình");
             System.out.print("Nhập lựa chọn của bạn: ");
             int choice = sc.nextInt();
             sc.nextLine();
@@ -70,8 +73,12 @@ public class Main {
                     DepartmentMenu.menuDepartment();
                     break;
                 case 2:
+                    EmployeeMenu.menuEmployee();
                     break;
                 case 3:
+                    StatisticalMenu.menuStatistic();
+                    break;
+                case 4:
                     System.out.println("Thoát chương trình");
                     return;
                 default:
